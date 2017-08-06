@@ -19,20 +19,20 @@ import com.google.gson.Gson;
 /**
  * The Class GoDaddyIpFunctions.
  */
-public final class GoDaddyIpFunctions {
+public class GoDaddyIpFunctions {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = LoggerFactory.getLogger(GoDaddyIpFunctions.class);
 
 	/** The Constant DOMAIN_NAME. */
-	static final String DOMAIN_NAME = ""; // The domain name that you wish to update
+	static final String DOMAIN_NAME = "leaddore.com"; // The domain name that you wish to update
 
 	/** The Constant KEY. */
-	static final String KEY = ""; // The developer API Key that you received from
-									// GoDaddy
+	static final String KEY = "2wYWcCsirv_K5ekyPXur9bybW6H3FNMNy"; // The developer API Key that you received from
+	// GoDaddy
 
 	/** The Constant SECRET. */
-	static final String SECRET = ""; // The secret that matches the developer API key from GoDaddy
+	static final String SECRET = "M5wdauYyVX2RWvUYB6Eu4b"; // The secret that matches the developer API key from GoDaddy
 
 	/** The Constant NAME. */
 	static final String NAME = "@"; // The name of the DNS record you wish to monitor and update, usually defaults
@@ -57,7 +57,7 @@ public final class GoDaddyIpFunctions {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public static String getIpAddress() throws IOException {
+	public String getIpAddress() throws IOException {
 
 		final HttpClient client = HttpClientBuilder.create().build();
 
@@ -69,7 +69,7 @@ public final class GoDaddyIpFunctions {
 
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
-		final StringBuffer result = new StringBuffer();
+		final StringBuilder result = new StringBuilder();
 		String line = "";
 		while ((line = reader.readLine()) != null) {
 			result.append(line);
@@ -95,7 +95,7 @@ public final class GoDaddyIpFunctions {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public static void setIpAddress(String ipAddress) throws ClientProtocolException, IOException {
+	public void setIpAddress(String ipAddress) throws IOException {
 
 		final HttpClient client = HttpClientBuilder.create().build();
 
@@ -109,7 +109,6 @@ public final class GoDaddyIpFunctions {
 		jsonReply.setData(ipAddress);
 		jsonReply.setTtl("3600");
 
-		System.out.println(jsonReply.toString());
 		final StringEntity entity = new StringEntity(jsonReply.toString());
 
 		request.setEntity(entity);

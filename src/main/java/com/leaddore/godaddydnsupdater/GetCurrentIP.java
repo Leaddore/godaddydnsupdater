@@ -15,7 +15,9 @@ import com.google.gson.Gson;
 /**
  * The Class GetCurrentIP.
  */
-public final class GetCurrentIP {
+public class GetCurrentIP {
+
+	private static final String URL = "http://ipinfo.io/json";
 
 	/**
 	 * Gets the ip.
@@ -26,19 +28,17 @@ public final class GetCurrentIP {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public static String getIp() throws ClientProtocolException, IOException {
-
-		final String url = "http://ipinfo.io/json";
+	public String getIp() throws IOException {
 
 		final HttpClient client = HttpClientBuilder.create().build();
 
-		final HttpGet request = new HttpGet(url);
+		final HttpGet request = new HttpGet(URL);
 
 		final HttpResponse response = client.execute(request);
 
 		final BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
-		final StringBuffer result = new StringBuffer();
+		final StringBuilder result = new StringBuilder();
 		String line = "";
 		while ((line = reader.readLine()) != null) {
 			result.append(line);

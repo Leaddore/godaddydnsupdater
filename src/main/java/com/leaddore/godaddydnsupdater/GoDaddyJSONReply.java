@@ -109,23 +109,23 @@ public class GoDaddyJSONReply {
 
 		sb.append("{");
 
-		if (!(type == null)) {
+		if (type != null) {
 
 			joiner.add(" \"type\":\"" + type + "\"");
 
 		}
 
-		if (!(name == null)) {
+		if (name != null) {
 
 			joiner.add(" \"name\":\"" + name + "\"");
 
 		}
-		if (!(data == null)) {
+		if (data != null) {
 			joiner.add(" \"data\":\"" + data + "\"");
 
 		}
 
-		if (!(ttl == null)) {
+		if (ttl != null) {
 
 			joiner.add(" \"ttl\":" + ttl);
 
