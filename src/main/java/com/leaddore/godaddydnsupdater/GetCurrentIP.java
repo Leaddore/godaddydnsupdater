@@ -9,8 +9,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * The Class GetCurrentIP.
@@ -18,6 +21,7 @@ import com.google.gson.Gson;
 public class GetCurrentIP {
 
 	private static final String URL = "http://ipinfo.io/json";
+	private static final Logger LOGGER = LoggerFactory.getLogger(GetCurrentIP.class);
 
 	/**
 	 * Gets the ip.
@@ -28,27 +32,45 @@ public class GetCurrentIP {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public String getIp() throws IOException {
+	public String getIp() {
 
-		final HttpClient client = HttpClientBuilder.create().build();
+		IpInfoJSONReply ipReply = null;
+		BufferedReader reader = null;
 
-		final HttpGet request = new HttpGet(URL);
+		try {
+			final HttpClient client = HttpClientBuilder.create().build();
 
-		final HttpResponse response = client.execute(request);
+			final HttpGet request = new HttpGet(URL);
 
-		final BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			final HttpResponse response = client.execute(request);
 
-		final StringBuilder result = new StringBuilder();
-		String line = "";
-		while ((line = reader.readLine()) != null) {
-			result.append(line);
+			reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+			final StringBuilder result = new StringBuilder();
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				result.append(line);
+			}
+
+			final Gson gson = new Gson();
+
+			ipReply = gson.fromJson(result.toString(), IpInfoJSONReply.class);
+		} catch (final JsonSyntaxException e) {
+			LOGGER.debug("JsonSyntaxException", e);
+		} catch (final UnsupportedOperationException e) {
+			LOGGER.debug("UnsupportedOperationException", e);
+		} catch (final ClientProtocolException e) {
+			LOGGER.debug("ClientProtocolException", e);
+		} catch (final IOException e) {
+			LOGGER.debug("IOException", e);
+		} finally {
+			try {
+				reader.close();
+			} catch (final IOException e) {
+				LOGGER.debug("IOException", e);
+			}
+
 		}
-
-		reader.close();
-
-		final Gson gson = new Gson();
-
-		final IpInfoJSONReply ipReply = gson.fromJson(result.toString(), IpInfoJSONReply.class);
 
 		return ipReply.getIp();
 
