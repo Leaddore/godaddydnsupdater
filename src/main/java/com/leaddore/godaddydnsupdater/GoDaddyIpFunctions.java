@@ -75,6 +75,8 @@ public class GoDaddyIpFunctions {
 			result.append(line);
 		}
 
+		reader.close();
+
 		final String cleanResult = result.substring(1, result.length() - 1);
 
 		final Gson gson = new Gson();

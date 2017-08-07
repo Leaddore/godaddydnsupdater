@@ -44,6 +44,8 @@ public class GetCurrentIP {
 			result.append(line);
 		}
 
+		reader.close();
+
 		final Gson gson = new Gson();
 
 		final IpInfoJSONReply ipReply = gson.fromJson(result.toString(), IpInfoJSONReply.class);
