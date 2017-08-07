@@ -65,14 +65,18 @@ public class GetCurrentIP {
 			LOGGER.debug("IOException", e);
 		} finally {
 			try {
-				reader.close();
+
+				if (reader != null) {
+					reader.close();
+				}
+
 			} catch (final IOException e) {
 				LOGGER.debug("IOException", e);
 			}
 
 		}
 
-		return ipReply.getIp();
+		return ((ipReply == null) || (ipReply.getIp() == null) ? "No Results found" : ipReply.getIp());
 
 	}
 
