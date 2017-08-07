@@ -1,3 +1,15 @@
 DEBUG   2017-08-06 16:47:35,488 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.0, addresses are the same.
 DEBUG   2017-08-06 16:47:35,489 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.1, addresses are different.
 DEBUG   2017-08-06 16:47:35,489 [main] com.leaddore.godaddydnsupdater.IpComparisons  - Setting GoDaddy IP address to 0.0.0.1.
+DEBUG   2017-08-07 09:36:14,930 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.0, addresses are the same.
+DEBUG   2017-08-07 09:36:14,931 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.1, addresses are different.
+DEBUG   2017-08-07 09:36:14,931 [main] com.leaddore.godaddydnsupdater.IpComparisons  - Setting GoDaddy IP address to 0.0.0.1.
+DEBUG   2017-08-07 09:36:43,322 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.0, addresses are the same.
+DEBUG   2017-08-07 09:36:43,324 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.1, addresses are different.
+DEBUG   2017-08-07 09:36:43,324 [main] com.leaddore.godaddydnsupdater.IpComparisons  - Setting GoDaddy IP address to 0.0.0.1.
+DEBUG   2017-08-07 09:39:39,507 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.0, addresses are the same.
+DEBUG   2017-08-07 09:39:39,510 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.1, addresses are different.
+DEBUG   2017-08-07 09:39:39,510 [main] com.leaddore.godaddydnsupdater.IpComparisons  - Setting GoDaddy IP address to 0.0.0.1.
+DEBUG   2017-08-07 09:41:07,158 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.0, addresses are the same.
+DEBUG   2017-08-07 09:41:07,160 [main] com.leaddore.godaddydnsupdater.IpComparisons  - GoDaddy IP listed as 0.0.0.0, Current Internet IP is 0.0.0.1, addresses are different.
+DEBUG   2017-08-07 09:41:07,161 [main] com.leaddore.godaddydnsupdater.IpComparisons  - Setting GoDaddy IP address to 0.0.0.1.
