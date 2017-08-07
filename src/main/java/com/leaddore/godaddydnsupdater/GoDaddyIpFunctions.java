@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * The Class GoDaddyIpFunctions.
@@ -57,33 +58,53 @@ public class GoDaddyIpFunctions {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public String getIpAddress() throws IOException {
+	public String getIpAddress() {
 
-		final HttpClient client = HttpClientBuilder.create().build();
+		GoDaddyJSONReply gdJson = null;
 
-		final HttpGet request = new HttpGet(REQUEST_URL);
+		BufferedReader reader = null;
 
-		request.setHeader("Authorization", "sso-key " + KEY + ":" + SECRET);
+		try {
+			final HttpClient client = HttpClientBuilder.create().build();
 
-		final HttpResponse response = client.execute(request);
+			final HttpGet request = new HttpGet(REQUEST_URL);
 
-		final BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			request.setHeader("Authorization", "sso-key " + KEY + ":" + SECRET);
 
-		final StringBuilder result = new StringBuilder();
-		String line = "";
-		while ((line = reader.readLine()) != null) {
-			result.append(line);
+			final HttpResponse response = client.execute(request);
+
+			reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+			final StringBuilder result = new StringBuilder();
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				result.append(line);
+			}
+
+			final String cleanResult = result.substring(1, result.length() - 1);
+
+			final Gson gson = new Gson();
+
+			gdJson = gson.fromJson(cleanResult, GoDaddyJSONReply.class);
+		} catch (final JsonSyntaxException e) {
+			LOGGER.debug("JsonSyntaxException", e);
+		} catch (final UnsupportedOperationException e) {
+			LOGGER.debug("UnsupportedOperationException", e);
+		} catch (final IOException e) {
+			LOGGER.debug("IOException", e);
+		} finally {
+			try {
+				if (reader != null) {
+					reader.close();
+				}
+
+			} catch (final IOException e) {
+				LOGGER.debug("IOException", e);
+			}
+
 		}
 
-		reader.close();
-
-		final String cleanResult = result.substring(1, result.length() - 1);
-
-		final Gson gson = new Gson();
-
-		final GoDaddyJSONReply gdJson = gson.fromJson(cleanResult, GoDaddyJSONReply.class);
-
-		return gdJson.getData();
+		return ((gdJson == null) || (gdJson.getData() == null)) ? "No Results Found" : gdJson.getData();
 
 	}
 
