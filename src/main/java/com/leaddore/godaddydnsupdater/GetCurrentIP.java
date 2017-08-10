@@ -21,7 +21,20 @@ import com.google.gson.JsonSyntaxException;
 public class GetCurrentIP {
 
 	private static final String URL = "http://ipinfo.io/json";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(GetCurrentIP.class);
+
+	private HttpClient client;
+
+	private HttpGet request;
+
+	private HttpResponse response;
+
+	private Gson gson;
+
+	private BufferedReader reader;
+
+	private StringBuilder result;
 
 	/**
 	 * Gets the ip.
@@ -35,26 +48,29 @@ public class GetCurrentIP {
 	public String getIp() {
 
 		IpInfoJSONReply ipReply = null;
-		BufferedReader reader = null;
 
 		try {
-			final HttpClient client = HttpClientBuilder.create().build();
 
-			final HttpGet request = new HttpGet(URL);
+			client = getClient();
 
-			final HttpResponse response = client.execute(request);
+			request = getRequest();
 
-			reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			response = client.execute(request);
 
-			final StringBuilder result = new StringBuilder();
+			reader = getReader();
+
+			result = getResult();
+
 			String line = "";
+
 			while ((line = reader.readLine()) != null) {
 				result.append(line);
 			}
 
-			final Gson gson = new Gson();
+			gson = getGson();
 
 			ipReply = gson.fromJson(result.toString(), IpInfoJSONReply.class);
+
 		} catch (final JsonSyntaxException e) {
 			LOGGER.debug("JsonSyntaxException", e);
 		} catch (final UnsupportedOperationException e) {
@@ -62,7 +78,7 @@ public class GetCurrentIP {
 		} catch (final ClientProtocolException e) {
 			LOGGER.debug("ClientProtocolException", e);
 		} catch (final IOException e) {
-			LOGGER.debug("IOException", e);
+			LOGGER.debug("Input/Output Exception thrown", e);
 		} finally {
 			try {
 
@@ -71,13 +87,83 @@ public class GetCurrentIP {
 				}
 
 			} catch (final IOException e) {
-				LOGGER.debug("IOException", e);
+				LOGGER.debug("Input/Output Exception thrown in the finally block", e);
 			}
 
 		}
 
 		return ((ipReply == null) || (ipReply.getIp() == null) ? "No Results found" : ipReply.getIp());
 
+	}
+
+	public HttpClient getClient() {
+		if (client == null) {
+			client = HttpClientBuilder.create().build();
+		}
+		return client;
+	}
+
+	public void setClient(HttpClient client) {
+		this.client = client;
+	}
+
+	public HttpGet getRequest() {
+		if (request == null) {
+			request = new HttpGet(URL);
+		}
+		return request;
+	}
+
+	public void setRequest(HttpGet request) {
+		this.request = request;
+	}
+
+	public HttpResponse getResponse() {
+		return response;
+	}
+
+	public void setResponse(HttpResponse response) {
+		this.response = response;
+	}
+
+	public Gson getGson() {
+		if (gson == null) {
+			gson = new Gson();
+		}
+		return gson;
+	}
+
+	public void setGson(Gson gson) {
+		this.gson = gson;
+	}
+
+	public BufferedReader getReader() {
+		if (reader == null) {
+			try {
+				reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			} catch (final UnsupportedOperationException e) {
+				LOGGER.debug("UnsupportedOperationException", e);
+			} catch (final IOException e) {
+				LOGGER.debug("Input/Output exception thown while trying to allocate the buffered reader.", e);
+			}
+		}
+		return reader;
+	}
+
+	public void setReader(BufferedReader reader) {
+		this.reader = reader;
+	}
+
+	public StringBuilder getResult() {
+		if (result == null) {
+			result = new StringBuilder();
+
+		}
+		return result;
+	}
+
+	public void setResult(StringBuilder result) {
+		this.result = result;
 	}
 
 }
