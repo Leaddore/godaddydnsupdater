@@ -15,6 +15,8 @@ public class IpComparisons {
 	/** The go daddy ip functions. */
 	private GoDaddyIpFunctions goDaddyIpFunctions;
 
+	private static final String NO_RESULTS_STRING = "NO RESULTS FOUND";
+
 	public boolean compareIpAddresses() throws IOException {
 
 		boolean isSame = false;
@@ -23,20 +25,25 @@ public class IpComparisons {
 
 		final String goDaddyIp = getGoDaddyIpFunctions().getIpAddress();
 
-		if (currentIp.equals(goDaddyIp)) {
+		if (!(currentIp.toLowerCase().contains(NO_RESULTS_STRING.toLowerCase())
+				|| goDaddyIp.toLowerCase().contains(NO_RESULTS_STRING.toLowerCase()))) {
+			if (currentIp.equals(goDaddyIp)) {
 
-			LOGGER.debug("GoDaddy IP listed as {}, Current Internet IP is {}, addresses are the same.", goDaddyIp,
-					currentIp);
-			isSame = true;
+				LOGGER.debug("GoDaddy IP listed as {}, Current Internet IP is {}, addresses are the same.", goDaddyIp,
+						currentIp);
+				isSame = true;
 
+			} else {
+
+				LOGGER.debug("GoDaddy IP listed as {}, Current Internet IP is {}, addresses are different.", goDaddyIp,
+						currentIp);
+				LOGGER.debug("Setting GoDaddy IP address to {}.", currentIp);
+
+				getGoDaddyIpFunctions().setIpAddress(currentIp);
+
+			}
 		} else {
-
-			LOGGER.debug("GoDaddy IP listed as {}, Current Internet IP is {}, addresses are different.", goDaddyIp,
-					currentIp);
-			LOGGER.debug("Setting GoDaddy IP address to {}.", currentIp);
-
-			getGoDaddyIpFunctions().setIpAddress(currentIp);
-
+			LOGGER.debug("Issue with IP Comparison, current ip is {} goDaddy ip is {}", currentIp, goDaddyIp);
 		}
 
 		return isSame;

@@ -9,6 +9,8 @@ public class Main {
 
 	private static IpComparisons ipCompare;
 
+	private static int sleepTimer = 3600000;
+
 	/**
 	 * The main method.
 	 *
@@ -21,7 +23,11 @@ public class Main {
 	 */
 	public static void main(String... args) throws IOException, InterruptedException {
 
-		getIpCompare().compareIpAddresses();
+		for (;;) {
+			getIpCompare().compareIpAddresses();
+			Thread.sleep(sleepTimer);
+
+		}
 
 	}
 

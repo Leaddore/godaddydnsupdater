@@ -22,7 +22,7 @@ public class IpComparisonsTest {
 	private IpComparisons ipCompare;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 
 		MockitoAnnotations.initMocks(this);
 

@@ -16,7 +16,7 @@ public class MainTest {
 	private GetCurrentIP getCurrentIpMock;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
 	}

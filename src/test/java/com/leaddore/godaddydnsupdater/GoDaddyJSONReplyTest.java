@@ -10,7 +10,7 @@ public class GoDaddyJSONReplyTest {
 	private GoDaddyJSONReply reply;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 
 		reply = new GoDaddyJSONReply();
 
