@@ -26,14 +26,14 @@ public class GoDaddyIpFunctions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GoDaddyIpFunctions.class);
 
 	/** The Constant DOMAIN_NAME. */
-	static final String DOMAIN_NAME = "leaddore.com"; // The domain name that you wish to update
+	static final String DOMAIN_NAME = ""; // The domain name that you wish to update
 
 	/** The Constant KEY. */
-	static final String KEY = "2wYWcCsirv_K5ekyPXur9bybW6H3FNMNy"; // The developer API Key that you received from
+	static final String KEY = ""; // The developer API Key that you received from
 	// GoDaddy
 
 	/** The Constant SECRET. */
-	static final String SECRET = "UoMdnXUgxyrwWrQCd5a4HX"; // The secret that matches the developer API key from GoDaddy
+	static final String SECRET = ""; // The secret that matches the developer API key from GoDaddy
 
 	/** The Constant NAME. */
 	static final String NAME = "@"; // The name of the DNS record you wish to monitor and update, usually defaults
