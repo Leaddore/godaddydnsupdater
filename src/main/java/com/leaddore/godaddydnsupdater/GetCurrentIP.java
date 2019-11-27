@@ -20,150 +20,214 @@ import com.google.gson.JsonSyntaxException;
  */
 public class GetCurrentIP {
 
-	private static final String URL = "http://ipinfo.io/json";
+    /** The Constant URL. */
+    private static final String URL = "http://ipinfo.io/json";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(GetCurrentIP.class);
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetCurrentIP.class);
 
-	private HttpClient client;
+    /** The client. */
+    private HttpClient client;
 
-	private HttpGet request;
+    /** The request. */
+    private HttpGet request;
 
-	private HttpResponse response;
+    /** The response. */
+    private HttpResponse response;
 
-	private Gson gson;
+    /** The gson. */
+    private Gson gson;
 
-	private BufferedReader reader;
+    /** The reader. */
+    private BufferedReader reader;
 
-	private StringBuilder result;
+    /** The result. */
+    private StringBuilder result;
 
-	/**
-	 * Gets the ip.
-	 *
-	 * @return the ip
-	 * @throws ClientProtocolException
-	 *             the client protocol exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	public String getIp() {
+    /**
+     * Gets the ip.
+     *
+     * @return the ip
+     */
+    public String getIp() {
 
-		IpInfoJSONReply ipReply = null;
+        IpInfoJSONReply ipReply = null;
 
-		try {
+        try {
 
-			client = getClient();
+            client = getClient();
 
-			request = getRequest();
+            request = getRequest();
 
-			response = client.execute(request);
+            response = client.execute(request);
 
-			reader = getReader();
+            reader = getReader();
 
-			result = getResult();
+            result = getResult();
 
-			String line = "";
+            String line = "";
 
-			while ((line = reader.readLine()) != null) {
-				result.append(line);
-			}
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
 
-			gson = getGson();
+            gson = getGson();
 
-			ipReply = gson.fromJson(result.toString(), IpInfoJSONReply.class);
+            ipReply = gson.fromJson(result.toString(), IpInfoJSONReply.class);
 
-		} catch (final JsonSyntaxException e) {
-			LOGGER.debug("JsonSyntaxException", e);
-		} catch (final UnsupportedOperationException e) {
-			LOGGER.debug("UnsupportedOperationException", e);
-		} catch (final ClientProtocolException e) {
-			LOGGER.debug("ClientProtocolException", e);
-		} catch (final IOException e) {
-			LOGGER.debug("Input/Output Exception thrown", e);
-		} finally {
-			try {
+        } catch (final JsonSyntaxException e) {
+            LOGGER.debug("JsonSyntaxException", e);
+        } catch (final UnsupportedOperationException e) {
+            LOGGER.debug("UnsupportedOperationException", e);
+        } catch (final ClientProtocolException e) {
+            LOGGER.debug("ClientProtocolException", e);
+        } catch (final IOException e) {
+            LOGGER.debug("Input/Output Exception thrown", e);
+        } finally {
+            try {
 
-				if (reader != null) {
-					reader.close();
-				}
+                if (reader != null) {
+                    reader.close();
+                }
 
-			} catch (final IOException e) {
-				LOGGER.debug("Input/Output Exception thrown in the finally block", e);
-			}
+            } catch (final IOException e) {
+                LOGGER.debug("Input/Output Exception thrown in the finally block", e);
+            }
 
-		}
+        }
 
-		return ((ipReply == null) || (ipReply.getIp() == null) ? "No Results found" : ipReply.getIp());
+        return ((ipReply == null) || (ipReply.getIp() == null) ? "No Results found" : ipReply.getIp());
 
-	}
+    }
 
-	public HttpClient getClient() {
-		if (client == null) {
-			client = HttpClientBuilder.create().build();
-		}
-		return client;
-	}
+    /**
+     * Gets the client.
+     *
+     * @return the client
+     */
+    public HttpClient getClient() {
+        if (client == null) {
+            client = HttpClientBuilder.create().build();
+        }
+        return client;
+    }
 
-	public void setClient(HttpClient client) {
-		this.client = client;
-	}
+    /**
+     * Sets the client.
+     *
+     * @param client the new client
+     */
+    public void setClient(HttpClient client) {
+        this.client = client;
+    }
 
-	public HttpGet getRequest() {
-		if (request == null) {
-			request = new HttpGet(URL);
-		}
-		return request;
-	}
+    /**
+     * Gets the request.
+     *
+     * @return the request
+     */
+    public HttpGet getRequest() {
+        if (request == null) {
+            request = new HttpGet(URL);
+        }
+        return request;
+    }
 
-	public void setRequest(HttpGet request) {
-		this.request = request;
-	}
+    /**
+     * Sets the request.
+     *
+     * @param request the new request
+     */
+    public void setRequest(HttpGet request) {
+        this.request = request;
+    }
 
-	public HttpResponse getResponse() {
-		return response;
-	}
+    /**
+     * Gets the response.
+     *
+     * @return the response
+     */
+    public HttpResponse getResponse() {
+        return response;
+    }
 
-	public void setResponse(HttpResponse response) {
-		this.response = response;
-	}
+    /**
+     * Sets the response.
+     *
+     * @param response the new response
+     */
+    public void setResponse(HttpResponse response) {
+        this.response = response;
+    }
 
-	public Gson getGson() {
-		if (gson == null) {
-			gson = new Gson();
-		}
-		return gson;
-	}
+    /**
+     * Gets the gson.
+     *
+     * @return the gson
+     */
+    public Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        return gson;
+    }
 
-	public void setGson(Gson gson) {
-		this.gson = gson;
-	}
+    /**
+     * Sets the gson.
+     *
+     * @param gson the new gson
+     */
+    public void setGson(Gson gson) {
+        this.gson = gson;
+    }
 
-	public BufferedReader getReader() {
-		if (reader == null) {
-			try {
-				reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			} catch (final UnsupportedOperationException e) {
-				LOGGER.debug("UnsupportedOperationException", e);
-			} catch (final IOException e) {
-				LOGGER.debug("Input/Output exception thown while trying to allocate the buffered reader.", e);
-			}
-		}
-		return reader;
-	}
+    /**
+     * Gets the reader.
+     *
+     * @return the reader
+     */
+    public BufferedReader getReader() {
+        if (reader == null) {
+            try {
+                reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            } catch (final UnsupportedOperationException e) {
+                LOGGER.debug("UnsupportedOperationException", e);
+            } catch (final IOException e) {
+                LOGGER.debug("Input/Output exception thown while trying to allocate the buffered reader.", e);
+            }
+        }
+        return reader;
+    }
 
-	public void setReader(BufferedReader reader) {
-		this.reader = reader;
-	}
+    /**
+     * Sets the reader.
+     *
+     * @param reader the new reader
+     */
+    public void setReader(BufferedReader reader) {
+        this.reader = reader;
+    }
 
-	public StringBuilder getResult() {
-		if (result == null) {
-			result = new StringBuilder();
+    /**
+     * Gets the result.
+     *
+     * @return the result
+     */
+    public StringBuilder getResult() {
+        if (result == null) {
+            result = new StringBuilder();
 
-		}
-		return result;
-	}
+        }
+        return result;
+    }
 
-	public void setResult(StringBuilder result) {
-		this.result = result;
-	}
+    /**
+     * Sets the result.
+     *
+     * @param result the new result
+     */
+    public void setResult(StringBuilder result) {
+        this.result = result;
+    }
 
 }
